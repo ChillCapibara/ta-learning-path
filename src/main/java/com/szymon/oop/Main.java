@@ -1,4 +1,4 @@
-package com.szymon;
+package com.szymon.oop;
 
 import com.szymon.oop.calculator.BasicCalculator;
 
