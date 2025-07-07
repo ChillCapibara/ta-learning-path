@@ -1,7 +1,7 @@
-package com.szymon.basics;
+package com.szymon.basics.warmup;
 
 public class FizzBuzz {
-    public static void main(String args[]){
+    public static void main(String[] args){
         printFizzBuzz();
     }
 

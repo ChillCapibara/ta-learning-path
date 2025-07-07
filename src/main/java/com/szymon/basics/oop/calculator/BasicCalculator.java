@@ -1,4 +1,4 @@
-package com.szymon.oop.calculator;
+package com.szymon.basics.oop.calculator;
 
 import java.util.Scanner;
 

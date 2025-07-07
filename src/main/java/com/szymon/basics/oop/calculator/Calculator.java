@@ -1,4 +1,4 @@
-package com.szymon.oop.calculator;
+package com.szymon.basics.oop.calculator;
 
 public interface Calculator {
     void add(int num1, int num2);

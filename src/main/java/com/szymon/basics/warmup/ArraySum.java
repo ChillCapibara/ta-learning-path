@@ -1,7 +1,7 @@
-package com.szymon.basics;
+package com.szymon.basics.warmup;
 
 public class ArraySum {
-    public static void main(String args[]) throws IllegalArgumentException {
+    public static void main(String[] args) throws IllegalArgumentException {
         System.out.println(arraySum(new int[]{1, 2, 3}));
         System.out.println(arraySum(new int[]{-1, 0, 4}));
         System.out.println(arraySum(new int[]{}));
