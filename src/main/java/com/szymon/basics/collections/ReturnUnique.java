@@ -9,16 +9,18 @@ public class ReturnUnique {
         getWordsInOrder("Lorem ipsum dolor sit amet lorem dolor");
     }
 
-    public static void getUniqueWords(String txt){
+    public static Set<String> getUniqueWords(String txt){
         String[] splited = txt.split(" ");
         Set<String> setOfUniqueValues = new LinkedHashSet<>(Arrays.asList(splited));
         System.out.println(setOfUniqueValues);
+        return setOfUniqueValues;
     }
 
-    public static void getWordsInOrder(String txt){
+    public static List<String> getWordsInOrder(String txt){
         String[] splited = txt.split(" ");
         List<String> listOfUniqueValues = new ArrayList<>(Arrays.asList(splited));
         System.out.println(listOfUniqueValues);
+        return listOfUniqueValues;
     }
 
 }
