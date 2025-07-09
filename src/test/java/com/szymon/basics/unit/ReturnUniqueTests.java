@@ -1,4 +1,4 @@
-package com.szymon.basics;
+package com.szymon.basics.unit;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
