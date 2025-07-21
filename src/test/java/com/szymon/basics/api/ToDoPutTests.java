@@ -25,7 +25,7 @@ public class ToDoPutTests {
                 .contentType(ContentType.JSON)
                 .body(body)
             .when()
-                .put("/todo/1")
+                .put("/todos/1")
             .then()
                 .extract().response();
 
@@ -33,7 +33,5 @@ public class ToDoPutTests {
         Assert.assertEquals(response.statusCode(), 200, "Invalid status code");
         Assert.assertEquals(JsonUtils.convertResponseIntoJson(response), expectedResponse, "Unexpected response");
     }
-
-
 
 }
