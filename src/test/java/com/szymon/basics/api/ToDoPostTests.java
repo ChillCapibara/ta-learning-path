@@ -1,7 +1,6 @@
 package com.szymon.basics.api;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.szymon.common.JsonUtils;
 import io.restassured.RestAssured;
@@ -58,10 +57,8 @@ public class ToDoPostTests {
 
     @Test(dataProvider = "invalidUserIdFields")
     public void invalidUserIdBody(Object val) throws Exception {
-        ObjectNode payload = (ObjectNode) JsonUtils.loadJsonFromResources("api/dummy/requests/toDoCreate.json");
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode userIdNode = mapper.valueToTree(val);
-        payload.set("userId", userIdNode);
+        ObjectNode payload = JsonUtils
+                .getPayloadWithFieldFromResource("api/dummy/requests/toDoCreate.json", "userId", val);
 
         Response response = given()
                 .contentType(ContentType.JSON)
@@ -78,10 +75,8 @@ public class ToDoPostTests {
 
     @Test
     public void nullUserIdField() throws Exception {
-        ObjectNode payload = (ObjectNode) JsonUtils.loadJsonFromResources("api/dummy/requests/toDoCreate.json");
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode userIdNode = mapper.valueToTree(null);
-        payload.set("userId", userIdNode);
+        ObjectNode payload = JsonUtils
+                .getPayloadWithFieldFromResource("api/dummy/requests/toDoCreate.json", "userId", null);
 
         Response response = given()
                 .contentType(ContentType.JSON)
@@ -98,10 +93,8 @@ public class ToDoPostTests {
 
     @Test
     public void nonExistingUser() throws Exception {
-        ObjectNode payload = (ObjectNode) JsonUtils.loadJsonFromResources("api/dummy/requests/toDoCreate.json");
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode userIdNode = mapper.valueToTree("\n");
-        payload.set("userId", userIdNode);
+        ObjectNode payload = JsonUtils
+                .getPayloadWithFieldFromResource("api/dummy/requests/toDoCreate.json", "userId", "\n");
 
         Response response = given()
                 .contentType(ContentType.JSON)
