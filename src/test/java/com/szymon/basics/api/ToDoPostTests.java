@@ -21,6 +21,7 @@ public class ToDoPostTests {
         RestAssured.baseURI = "https://dummyjson.com";
     }
 
+
     @Test
     public void toDoCanBeCreated() throws Exception {
         JsonNode requestBody = JsonUtils.loadJsonFromResources("api/dummy/requests/toDoCreate.json");
@@ -53,6 +54,7 @@ public class ToDoPostTests {
                 {"lorem !@#$%^&*()_+|}{\n\t'\";,./<>?"}
         };
     }
+
 
     @Test(dataProvider = "invalidUserIdFields")
     public void invalidUserIdBody(Object val) throws Exception {
@@ -112,6 +114,4 @@ public class ToDoPostTests {
         Assert.assertEquals(response.statusCode(), 404, "Invalid status code");
         Assert.assertEquals(response.jsonPath().getString("message"), "User with id '\n' not found");
     }
-
-
 }
