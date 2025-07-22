@@ -12,6 +12,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.given;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 
 public class ToDoPostTests {
 
@@ -107,4 +108,22 @@ public class ToDoPostTests {
         Assert.assertEquals(response.statusCode(), 404, "Invalid status code");
         Assert.assertEquals(response.jsonPath().getString("message"), "User with id '\n' not found");
     }
+
+
+    @Test
+    public void addToDo200ResponseMatchesSchema() throws Exception {
+        JsonNode requestBody = JsonUtils.loadJsonFromResources("api/dummy/requests/toDoCreate.json");
+
+        given()
+                .contentType(ContentType.JSON)
+                .body(requestBody)
+                .when()
+                .post("/todos/add")
+                .then()
+                .assertThat()
+                .statusCode(201)
+                .body(matchesJsonSchemaInClasspath("api/dummy/schemas/addToDo200Schema.json"));
+    }
+
+
 }

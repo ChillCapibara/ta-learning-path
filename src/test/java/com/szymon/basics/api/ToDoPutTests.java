@@ -10,6 +10,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.given;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 
 public class ToDoPutTests {
 
@@ -32,6 +33,21 @@ public class ToDoPutTests {
         JsonNode expectedResponse = JsonUtils.loadJsonFromResources("api/dummy/responses/expectedResponsePutToDo.json");
         Assert.assertEquals(response.statusCode(), 200, "Invalid status code");
         Assert.assertEquals(JsonUtils.convertResponseIntoJson(response), expectedResponse, "Unexpected response");
+    }
+
+    @Test
+    public void updateToDo200ResponseMatchesSchema() throws Exception {
+        JsonNode body = JsonUtils.loadJsonFromResources("api/dummy/requests/toDoPut.json");
+
+        given()
+                .contentType(ContentType.JSON)
+                .body(body)
+            .when()
+                .put("/todos/1")
+            .then()
+                .assertThat()
+                .statusCode(200)
+                .body(matchesJsonSchemaInClasspath("api/dummy/schemas/updateToDo200Schema.json"));
     }
 
 }

@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "todo": {
+      "type": "string"
+    },
+    "completed": {
+      "type": "boolean"
+    },
+    "userId": {
+      "type": "integer"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "todo",
+    "completed",
+    "userId"
+  ]
+}

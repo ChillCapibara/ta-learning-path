@@ -8,6 +8,9 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import static io.restassured.RestAssured.given;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
+
 public class ToDoGetTests {
 
 
@@ -46,5 +49,15 @@ public class ToDoGetTests {
 
     }
 
+    @Test
+    public void response200MatchesSchema(){
+        given()
+                .when()
+                    .get("/todos/1")
+                .then()
+                    .assertThat()
+                    .statusCode(200)
+                    .body(matchesJsonSchemaInClasspath("api/dummy/schemas/toDo200Schema.json"));
+    }
 
 }

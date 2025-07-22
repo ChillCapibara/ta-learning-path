@@ -11,6 +11,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 import static io.restassured.RestAssured.when;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 
 public class ToDoDeleteTests {
 
@@ -41,4 +42,16 @@ public class ToDoDeleteTests {
         Assert.assertTrue(response.jsonPath().getBoolean("isDeleted"), "Invalid deletion state");
         Assert.assertEquals(actualTrimmedZoneDateTime, now, "Deletion time is not matching the expected one");
     }
+
+    @Test
+    public void deleteToDo200ResponseMatchesSchema(){
+
+            when()
+                .delete("/todos/1")
+            .then()
+                .assertThat()
+                .statusCode(200)
+                .body(matchesJsonSchemaInClasspath("api/dummy/schemas/deleteToDo200Schema.json"));
+    }
+
 }
