@@ -19,7 +19,7 @@ public class ToDoPutTests {
     @Test
     public void toDoCanBeUpdated() throws Exception {
         JsonNode body = JsonUtils.loadJsonFromResources("api/dummy/requests/toDoPut.json");
-        Response response = JsonUtils.put("/todos/1", body);
+        Response response = JsonUtils.put("/todos/2", body);
 
         JsonNode expectedResponse = JsonUtils.loadJsonFromResources("api/dummy/responses/expectedResponsePutToDo.json");
         Assert.assertEquals(response.statusCode(), 200, "Invalid status code");
@@ -29,7 +29,7 @@ public class ToDoPutTests {
     @Test
     public void updateToDo200ResponseMatchesSchema() throws Exception {
         JsonNode body = JsonUtils.loadJsonFromResources("api/dummy/requests/toDoPut.json");
-        Response response = JsonUtils.put("/todos/1", body);
+        Response response = JsonUtils.put("/todos/2", body);
         JsonUtils.schemaValidator(response, "api/dummy/schemas/updateToDo200Schema.json");
     }
 

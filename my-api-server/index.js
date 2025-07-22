@@ -4,8 +4,12 @@ const port = 3000;
 
 app.use(express.json());
 
+const { body, validationResult } = require('express-validator');
+const allowedFields = ['todo', 'completed', 'userId'];
+
 let todos = [
-  { id: 1, todo: 'Learn Express.js', completed: false, userId: 10 }
+  { id: 1, todo: 'Learn Express.js', completed: false, userId: 10 },
+  { id: 2, todo: 'Do sth nice', completed: false, userId: 10 }
 ];
 
 // GET all todos
@@ -21,11 +25,37 @@ app.get('/todos/:id', (req, res) => {
 });
 
 // POST new todo
-app.post('/todos', (req, res) => {
-  const newTodo = { id: Date.now(), ...req.body };
-  todos.push(newTodo);
-  res.status(201).json(newTodo);
-});
+app.post(
+  '/todos/add',
+  [
+    // express-validator field checks
+    body('todo').isString().withMessage('todo must be a string'),
+    body('completed').isBoolean().withMessage('completed must be a boolean'),
+    body('userId').isInt().withMessage('userId must be an integer')
+  ],
+  (req, res) => {
+    // Check for unexpected fields
+    const keys = Object.keys(req.body);
+    const invalidFields = keys.filter(k => !allowedFields.includes(k));
+
+    if (invalidFields.length > 0) {
+      return res.status(400).json({ message: "Unexpected fields: " + invalidFields.join(', ') });
+    }
+
+    // Check validation result
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const simplifiedErrors = errors.array().map(err => ({ message: err.msg }));
+      return res.status(400).json({ errors: simplifiedErrors });
+    }
+
+
+    // Create new todo
+    const newTodo = { id: Date.now(), ...req.body };
+    todos.push(newTodo);
+    res.status(201).json(newTodo);
+  }
+);
 
 // PUT (replace)
 app.put('/todos/:id', (req, res) => {

@@ -9,7 +9,6 @@ import io.restassured.response.Response;
 import java.io.InputStream;
 
 import static io.restassured.RestAssured.given;
-import static io.restassured.RestAssured.when;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 
 public class JsonUtils {
@@ -78,12 +77,6 @@ public class JsonUtils {
                 .contentType(ContentType.JSON)
                 .body(requestBody)
                 .when()
-                .delete(endpoint)
-                .then().extract().response();
-    }
-
-    public static Response delete(String endpoint){
-        return  when()
                 .delete(endpoint)
                 .then().extract().response();
     }

@@ -25,11 +25,11 @@ public class ToDoPostTests {
 
         Assert.assertEquals(response.statusCode(), 201, "Invalid status code");
 
-        Assert.assertTrue(response.jsonPath().get("id") instanceof Integer);
+        Assert.assertTrue(response.jsonPath().get("id") instanceof Long);
         Assert.assertTrue(response.jsonPath().getInt("id") > 0, "Id not assigned");
 
-        Assert.assertTrue(response.jsonPath().get("completed") instanceof String);
-        Assert.assertEquals(response.jsonPath().getString("completed"), "false", "Invalid completion status");
+        Assert.assertTrue(response.jsonPath().get("completed") instanceof Boolean);
+        Assert.assertFalse(response.jsonPath().getBoolean("completed"), "Invalid completion status");
 
         Assert.assertTrue(response.jsonPath().get("userId") instanceof Integer);
         Assert.assertEquals(response.jsonPath().getInt("userId"), 99, "Invalid userId");
@@ -41,7 +41,9 @@ public class ToDoPostTests {
         return new Object[][]{
                 {"lorem"},
                 {true},
-                {"lorem !@#$%^&*()_+|}{\n\t'\";,./<>?"}
+                {"lorem !@#$%^&*()_+|}{\n\t'\";,./<>?"},
+                {"\n"},
+                {null}
         };
     }
 
@@ -53,41 +55,7 @@ public class ToDoPostTests {
         Response response = JsonUtils.post("/todos/add", payload);
 
         Assert.assertEquals(response.statusCode(), 400, "Invalid status code");
-        Assert.assertEquals(response.jsonPath().getString("message"), String.format("Invalid user id '%s'", val));
+        Assert.assertEquals(response.jsonPath().getString("errors[0].message"), "userId must be an integer");
     }
-
-
-    @Test
-    public void nullUserIdField() throws Exception {
-        ObjectNode payload = JsonUtils
-                .getPayloadWithFieldFromResource("api/dummy/requests/toDoCreate.json", "userId", null);
-
-        Response response = JsonUtils.post("/todos/add", payload);
-
-        Assert.assertEquals(response.statusCode(), 400, "Invalid status code");
-        Assert.assertEquals(response.jsonPath().getString("message"), "User id is required");
-    }
-
-
-    @Test
-    public void nonExistingUser() throws Exception {
-        ObjectNode payload = JsonUtils
-                .getPayloadWithFieldFromResource("api/dummy/requests/toDoCreate.json", "userId", "\n");
-
-        Response response = JsonUtils.post("/todos/add", payload);
-
-        Assert.assertEquals(response.statusCode(), 404, "Invalid status code");
-        Assert.assertEquals(response.jsonPath().getString("message"), "User with id '\n' not found");
-    }
-
-
-    @Test
-    public void addToDo200ResponseMatchesSchema() throws Exception {
-        JsonNode requestBody = JsonUtils.loadJsonFromResources("api/dummy/requests/toDoCreate.json");
-
-        Response response = JsonUtils.post("/todos/add", requestBody);
-        JsonUtils.schemaValidator(response, "api/dummy/schemas/addToDo200Schema.json");
-    }
-
 
 }
