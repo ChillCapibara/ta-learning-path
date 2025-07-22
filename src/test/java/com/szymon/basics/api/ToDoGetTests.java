@@ -8,29 +8,22 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import static io.restassured.RestAssured.given;
-import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
-
 public class ToDoGetTests {
-
 
     @BeforeClass
     public void setup() {
-        RestAssured.baseURI = "https://dummyjson.com";
+        RestAssured.baseURI = "http://localhost:3000";
     }
 
     @Test
     public void verifyStatusCode() {
-        RestAssured
-                .get("/todos/1")
-                .then()
-                .assertThat()
-                .statusCode(200);
+        Response response = JsonUtils.get("/todos/1");
+        response.then().assertThat().statusCode(200);
     }
 
     @Test
     public void verifyResponseBody() throws Exception {
-        Response response = RestAssured.get("/todos/1");
+        Response response = JsonUtils.get("/todos/1");
         JsonNode actualResults = JsonUtils.convertResponseIntoJson(response);
         JsonNode expectedResponse = JsonUtils.loadJsonFromResources("api/dummy/responses/expectedResponseGetToDo.json");
 
@@ -39,10 +32,10 @@ public class ToDoGetTests {
 
     @Test
     public void verifyIdempotenceOfResponse() throws Exception {
-        Response response1 = RestAssured.get("/todos/1");
+        Response response1 = JsonUtils.get("/todos/1");
         JsonNode response1Json = JsonUtils.convertResponseIntoJson(response1);
 
-        Response response2 = RestAssured.get("/todos/1");
+        Response response2 = JsonUtils.get("/todos/1");
         JsonNode response2Json = JsonUtils.convertResponseIntoJson(response2);
 
         Assert.assertEquals(response1Json, response2Json);
@@ -51,13 +44,8 @@ public class ToDoGetTests {
 
     @Test
     public void response200MatchesSchema(){
-        given()
-                .when()
-                    .get("/todos/1")
-                .then()
-                    .assertThat()
-                    .statusCode(200)
-                    .body(matchesJsonSchemaInClasspath("api/dummy/schemas/toDo200Schema.json"));
+        Response response = JsonUtils.get("/todos/1");
+        JsonUtils.schemaValidator(response, "api/dummy/schemas/toDo200Schema.json");
     }
 
 }

@@ -1,5 +1,6 @@
 package com.szymon.basics.api;
 
+import com.szymon.common.JsonUtils;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.testng.Assert;
@@ -10,27 +11,20 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
-import static io.restassured.RestAssured.when;
-import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
-
 public class ToDoDeleteTests {
 
     @BeforeClass
     public void setup() {
-        RestAssured.baseURI = "https://dummyjson.com";
+        RestAssured.baseURI = "http://localhost:3000";
     }
 
     @Test
-    public void toDoCanBeDeleted(){
-        Response response =
-                when()
-                    .delete("/todos/1")
-                .then()
-                        .extract().response();
+    public void toDoCanBeDeleted() {
+        Response response = JsonUtils.delete("/todos/1");
 
         String now = ZonedDateTime.now(ZoneOffset.UTC)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
-        String actualTime =  response.jsonPath().getString("deletedOn");
+        String actualTime = response.jsonPath().getString("deletedOn");
         String actualTrimmedZoneDateTime = ZonedDateTime.parse(actualTime).
                 format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
 
@@ -44,14 +38,9 @@ public class ToDoDeleteTests {
     }
 
     @Test
-    public void deleteToDo200ResponseMatchesSchema(){
-
-            when()
-                .delete("/todos/1")
-            .then()
-                .assertThat()
-                .statusCode(200)
-                .body(matchesJsonSchemaInClasspath("api/dummy/schemas/deleteToDo200Schema.json"));
+    public void deleteToDo200ResponseMatchesSchema() {
+        Response response = JsonUtils.delete("/todos/1");
+        JsonUtils.schemaValidator(response, "api/dummy/schemas/deleteToDo200Schema.json");
     }
 
 }

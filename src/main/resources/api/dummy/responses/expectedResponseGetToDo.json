@@ -1,6 +1,6 @@
 {
   "id": 1,
-  "todo": "Do something nice for someone you care about",
+  "todo": "Learn Express.js",
   "completed": false,
-  "userId": 152
+  "userId": 10
 }
