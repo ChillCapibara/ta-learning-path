@@ -17,14 +17,14 @@ app.get('/todos', (req, res) => {
   res.json(todos);
 });
 
-// GET single todo
+// GET single to do
 app.get('/todos/:id', (req, res) => {
   const todo = todos.find(t => t.id == req.params.id);
   if (!todo) return res.status(404).json({ message: 'Todo not found' });
   res.json(todo);
 });
 
-// POST new todo
+// POST new to do
 app.post(
   '/todos/add',
   [
@@ -50,7 +50,7 @@ app.post(
     }
 
 
-    // Create new todo
+    // Create new to do
     const newTodo = { id: Date.now(), ...req.body };
     todos.push(newTodo);
     res.status(201).json(newTodo);

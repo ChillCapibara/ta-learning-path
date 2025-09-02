@@ -3,20 +3,12 @@ package com.szymon.basics.api;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.szymon.common.JsonUtils;
-import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-public class ToDoPostTests {
-
-    @BeforeClass
-    public void setup() {
-        RestAssured.baseURI = "http://localhost:3000";
-    }
-
+public class ToDoPostTests extends BaseApiTest{
 
     @Test
     public void toDoCanBeCreated() throws Exception {

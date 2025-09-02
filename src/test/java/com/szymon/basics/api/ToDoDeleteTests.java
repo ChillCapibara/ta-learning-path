@@ -6,17 +6,11 @@ import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
-public class ToDoDeleteTests {
+public class ToDoDeleteTests extends BaseApiTest{
 
     private String id;
-
-    @BeforeSuite
-    public void setup() {
-        RestAssured.baseURI = "http://localhost:3000";
-    }
 
     @BeforeMethod
     public void createToDoForDeletion() throws Exception {
