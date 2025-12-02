@@ -16,7 +16,7 @@ public class LoginTest extends BaseTest {
     @BeforeTest
     public void setUp(){
         loginPage = new LoginPage(driver());
-        loginPage.navigateTo();
+        loginPage.open();
     }
 
     @Test

@@ -1,11 +1,10 @@
 package ui.base;
 
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import utils.Config;
 
 import java.time.Duration;
 
@@ -31,21 +30,8 @@ public abstract class BasePage {
         element.sendKeys(value);
     }
 
-    public FluentWait<WebDriver> fluentWait(int waitTimeSeconds, int pollingTimeMillis){
-       return new FluentWait<>(driver)
-                .withTimeout(Duration.ofSeconds(waitTimeSeconds))
-                .pollingEvery(Duration.ofMillis(pollingTimeMillis))
-                .ignoring(NoSuchElementException.class)
-               .ignoring(StaleElementReferenceException.class);
-    }
-
-    public void waitUntilElementIsLoaded(WebElement element){
-        fluentWait(5, 200).until(d -> {
-            try{
-                return element.isDisplayed();
-            } catch (Exception e){
-                return false;
-            }
-        });
+    public void waitUntilElementIsVisible(By locator){
+        new WebDriverWait(driver, Duration.ofSeconds(Config.getInt("wait.timeout")))
+                .until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 }

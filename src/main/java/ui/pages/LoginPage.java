@@ -1,21 +1,29 @@
 package ui.pages;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import ui.base.BasePage;
+import utils.Config;
+import utils.Endpoint;
 
 public class LoginPage extends BasePage {
-    private final String loginPageUrl = "https://practice.automationtesting.in/my-account/";
-    private final String userLogin = "loremSzymon@ipsum.com";
-    private final String userPassword = "Test_1234!";
+    //potentially sensitive data
+    private final String userLogin = Config.get("login.username");
+    private final String userPassword = Config.get("login.password");
+
+    private final String loginUrl = Endpoint.MY_ACCOUNT.url();
 
 
     public LoginPage(WebDriver driver){
         super(driver);
     }
 
-    @FindBy(css = ".fc-cta-consent.fc-primary-button")
+    private static final String COOKIES_BTN = ".fc-cta-consent.fc-primary-button";
+    private static final By COOKIES_BTN_BY = By.cssSelector(COOKIES_BTN);
+    @FindBy(css = COOKIES_BTN)
     private WebElement cookiesAcceptButton;
 
     @FindBy(id = "username")
@@ -34,13 +42,15 @@ public class LoginPage extends BasePage {
         return new LandingPage(driver);
     }
 
-    public LoginPage navigateTo(){
-        navigateTo(loginPageUrl);
+    public LoginPage open(){
+        navigateTo(loginUrl);
         try{
-            waitUntilElementIsLoaded(cookiesAcceptButton);
+            waitUntilElementIsVisible(COOKIES_BTN_BY);
             cookiesAcceptButton.click();
-        } catch (Exception ignore){}
-        return new LoginPage(driver);
+        } catch (Exception e){
+            throw new NoSuchElementException("Missing cookies consent button!", e);
+        }
+        return this;
     }
 
 }
