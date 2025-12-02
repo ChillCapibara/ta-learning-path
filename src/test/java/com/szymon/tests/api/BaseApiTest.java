@@ -1,4 +1,4 @@
-package com.szymon.basics.api;
+package com.szymon.tests.api;
 
 import io.restassured.RestAssured;
 import org.testng.annotations.BeforeClass;
