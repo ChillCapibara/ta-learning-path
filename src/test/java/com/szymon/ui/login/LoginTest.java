@@ -7,8 +7,6 @@ import org.testng.annotations.Test;
 import ui.pages.LandingPage;
 import ui.pages.LoginPage;
 
-
-
 public class LoginTest extends BaseTest {
 
     private LoginPage loginPage;

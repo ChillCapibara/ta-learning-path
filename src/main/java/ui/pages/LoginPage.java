@@ -1,7 +1,5 @@
 package ui.pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -21,9 +19,7 @@ public class LoginPage extends BasePage {
         super(driver);
     }
 
-    private static final String COOKIES_BTN = ".fc-cta-consent.fc-primary-button";
-    private static final By COOKIES_BTN_BY = By.cssSelector(COOKIES_BTN);
-    @FindBy(css = COOKIES_BTN)
+    @FindBy(css = ".fc-cta-consent.fc-primary-button")
     private WebElement cookiesAcceptButton;
 
     @FindBy(id = "username")
@@ -44,12 +40,7 @@ public class LoginPage extends BasePage {
 
     public LoginPage open(){
         navigateTo(loginUrl);
-        try{
-            waitUntilElementIsVisible(COOKIES_BTN_BY);
-            cookiesAcceptButton.click();
-        } catch (Exception e){
-            throw new NoSuchElementException("Missing cookies consent button!", e);
-        }
+        click(cookiesAcceptButton);
         return this;
     }
 
