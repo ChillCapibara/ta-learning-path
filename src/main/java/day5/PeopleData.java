@@ -21,6 +21,12 @@ public class PeopleData {
                 new Person(
                         "Charlie",
                         25,
+                        new Address("Wroclaw", null),
+                        List.of("premium", "early-access")
+                ),
+                new Person(
+                        "Charlie",
+                        25,
                         null,
                         List.of("premium", "early-access")
                 ),
@@ -44,4 +50,10 @@ public class PeopleData {
                 )
         );
     }
+
+    public static String getDefault(){
+        System.out.println("Default is evaluated");
+        return "Default is evaluated";
+    }
+
 }

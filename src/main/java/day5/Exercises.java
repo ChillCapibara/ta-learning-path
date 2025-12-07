@@ -25,11 +25,15 @@ public class Exercises {
                         .flatMap(person -> person.getTags().stream())
                 .toList();
 
+
         System.out.println(Arrays.toString(peopleList.toArray()));
         System.out.println(Arrays.toString(adults.toArray()));
         System.out.println(descriptiveData);
         System.out.println(byAge);
         System.out.println(allTags);
+        System.out.println(peopleList.get(2).getAddress().getStreet().orElseGet(() -> "I need some sleep -_-"));
+        //Compute fallback -> check if optional is empty -> decide if fallback should be used or not -> return value
+        System.out.println(peopleList.get(1).getAddress().getStreet().orElse( PeopleData.getDefault()));
+//        System.out.println(peopleList.get(3).getAddress().getStreet().orElse("optionalStreet")); <- this fails because the Address itself is null
     }
-
 }

@@ -1,5 +1,7 @@
 package day5;
 
+import java.util.Optional;
+
 public class Address {
     private final String city;
     private final String street;
@@ -11,5 +13,5 @@ public class Address {
 
     public String getCity() { return city; }
 
-    public String getStreet() { return street; }
+    public Optional<String> getStreet() { return Optional.ofNullable(street); }
 }
