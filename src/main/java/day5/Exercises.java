@@ -29,6 +29,7 @@ public class Exercises {
         System.out.println(Arrays.toString(adults.toArray()));
         System.out.println(descriptiveData);
         System.out.println(byAge);
+        System.out.println(allTags);
     }
 
 }
