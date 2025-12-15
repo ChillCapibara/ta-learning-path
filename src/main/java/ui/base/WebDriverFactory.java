@@ -12,57 +12,16 @@ import java.util.Arrays;
 
 public class WebDriverFactory {
 
-    private static final ThreadLocal<WebDriver> driverThread = new ThreadLocal<>();
+    // create() only: prepare driver binary & return instance
+    public static WebDriver create(BrowserType browserType) {
+        setupDriverBinary(browserType);
 
-    public static WebDriver setDriver() {
-
-        if (driverThread.get() == null) {
-
-            BrowserType browserType = getBrowserType();
-
-            //prepare options
-            WebDriverManagerSetup(browserType);
-
-            //driver creation inside enum
-            WebDriver driver = browserType.create();
-
-            //global config
-            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-            driver.manage().window().maximize();
-
-            driverThread.set(driver);
-        }
-
-        return driverThread.get();
+        //creation delegated to enum
+        return browserType.create();
     }
 
-    public static WebDriver getDriver() {
-        return driverThread.get();
-    }
 
-    public static void quitDriver() {
-        if (driverThread.get() != null) {
-            driverThread.get().quit();
-            driverThread.remove();
-        }
-    }
-
-    public static BrowserType getBrowserType() {
-        String browserName = Config.get("browser");
-        if (browserName == null || browserName.isBlank()) {
-            return BrowserType.CHROME;
-        }
-        try {
-            return BrowserType.valueOf(browserName.trim().toUpperCase());
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException(
-                    "Invalid browser: '" + browserName +
-                            "'. Supported: " + Arrays.toString(BrowserType.values()));
-        }
-    }
-
-    private static void WebDriverManagerSetup(BrowserType type) {
-
+    private static void setupDriverBinary(BrowserType type) {
         switch (type) {
             case CHROME:
                 WebDriverManager.chromedriver().setup();
