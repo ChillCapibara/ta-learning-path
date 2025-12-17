@@ -28,4 +28,7 @@ public final class Config {
         return Integer.parseInt(get(key));
     }
 
+    public static boolean getBoolean(String key) {
+        return Boolean.parseBoolean(get(key));
+    }
 }

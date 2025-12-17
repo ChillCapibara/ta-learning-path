@@ -2,10 +2,12 @@ package ui.base;
 
 import org.openqa.selenium.WebDriver;
 import ui.enums.BrowserType;
+import ui.enums.WindowMode;
 import utils.Config;
 
 import java.time.Duration;
 import java.util.Arrays;
+import org.openqa.selenium.Dimension;
 
 public class WebDriverManager {
 
@@ -15,16 +17,33 @@ public class WebDriverManager {
     public static WebDriver setDriver(){
         if (driverThread.get() == null){
             BrowserType browserType = getBrowserType();
+            DriverOptions options = buildOptionsFromConfig();
 
             //creation delegated to factory
-            WebDriver driver = WebDriverFactory.create(browserType);
+            WebDriver driver = WebDriverFactory.create(browserType, options);
 
             // lifecycle/configuration
             configureDriver(driver);
-
+            applyWindowMode(driver, options);
             driverThread.set(driver);
         }
         return driverThread.get();
+    }
+
+    private static DriverOptions buildOptionsFromConfig() {
+        DriverOptions.Builder builder = DriverOptions.builder()
+                .headless(Config.getBoolean("headless"))
+                .disableNotifications(true);
+
+        switch (getWindowMode()) {
+            case MAXIMIZED, DEFAULT -> builder.maximize();
+            case CUSTOM -> builder.windowSize(
+                    Config.getInt("window.width"),
+                    Config.getInt("window.height")
+            );
+        }
+
+        return builder.build();
     }
 
     public static WebDriver getDriver() {
@@ -51,15 +70,31 @@ public class WebDriverManager {
         }
     }
 
-
     private static void configureDriver(WebDriver driver){
             //Global config values read centrally
             int waitTimeout = Config.getInt("wait.timeout");
             driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(waitTimeout));
-            driver.manage().window().maximize();
-
-            driverThread.set(driver);
     }
 
+    private static WindowMode getWindowMode() {
+        String raw = Config.get("window.mode");
+        if (raw == null || raw.isBlank()) {
+            return WindowMode.DEFAULT;
+        }
+        try {
+            return WindowMode.valueOf(raw.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException(
+                    "Unsupported window.mode: " + raw + ". Supported: " + Arrays.toString(WindowMode.values()));
+        }
+    }
 
+    private static void applyWindowMode(WebDriver driver, DriverOptions options) {
+        switch (options.getWindowMode()) {
+            case MAXIMIZED, DEFAULT -> driver.manage().window().maximize();
+            case CUSTOM -> driver.manage().window().setSize(
+                    new Dimension(options.getWidth(), options.getHeight())
+            );
+        }
+    }
 }
