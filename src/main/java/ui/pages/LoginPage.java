@@ -19,7 +19,7 @@ public class LoginPage extends BasePage {
         super(driver);
     }
 
-    @FindBy(css = ".fc-cta-consent.fc-primary-button")
+    @FindBy(css = "[aria-label]='Consent'")
     private WebElement cookiesAcceptButton;
 
     @FindBy(id = "username")
