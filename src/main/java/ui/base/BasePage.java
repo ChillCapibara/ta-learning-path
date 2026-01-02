@@ -1,63 +1,56 @@
 package ui.base;
 
 import org.openqa.selenium.*;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import utils.Config;
+import utils.WaitUtils;
 
-import java.time.Duration;
+import java.util.List;
 
 public abstract class BasePage {
 
     protected final WebDriver driver;
-    protected final WebDriverWait wait;
-    private final int maxNumberOfRetries = Config.getInt("attempts.max");
+    private final int maxRetries = Config.getInt("attempts.max");
 
     public BasePage(WebDriver driver) {
         this.driver = driver;
-        wait = new WebDriverWait(driver, Duration.ofSeconds(Config.getInt("wait.timeout")));
-        PageFactory.initElements(driver, this);
     }
 
-    public void navigateTo(String url) {
+    protected void navigateTo(String url) {
         driver.get(url);
     }
 
-    public void click(WebElement element) {
-        for (int attempt = 0; attempt < Math.max(1, maxNumberOfRetries); attempt++) {
+    protected void click(By locator) {
+        for (int attempt = 1; attempt <= maxRetries; attempt++) {
             try {
-                waitUntilElementIsClickable(element).click();
+                WaitUtils.clickable(locator).click();
                 return;
             } catch (ElementClickInterceptedException | StaleElementReferenceException | TimeoutException e) {
-                // if last attempt -> try JS click fallback and rethrow if it fails
-                if (attempt == Math.max(1, maxNumberOfRetries) - 1) {
-                    try {
-                        WebElement refreshed = waitUntilElementIsClickable(element);
-                        jsClick(refreshed);
-                        return;
-                    } catch (RuntimeException ex) {
-                        throw new RuntimeException("click() failed after " + maxNumberOfRetries + " attempts", ex);
-                    }
+                if (attempt == maxRetries) {
+                    System.out.println("Fallback JS click used for: " + locator);
+                    jsClick(locator);
                 }
             }
         }
     }
 
-    public void enterValue(WebElement element, CharSequence value) {
+    protected void enterValue(By locator, CharSequence value) {
+        WebElement element = WaitUtils.visible(locator);
         element.clear();
         element.sendKeys(value);
     }
 
-    public void waitUntilElementIsVisible(By locator) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+    // Multiple elements interactions will be added once needed
+    protected List<WebElement> visibleElements(By locator) {
+        return WaitUtils.visibleAll(locator);
     }
 
-    public WebElement waitUntilElementIsClickable(WebElement element) {
-        return wait.until(ExpectedConditions.elementToBeClickable(element));
+    protected String getText(By locator){
+        return WaitUtils.visible(locator).getText();
     }
 
-    private void jsClick(WebElement element) {
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+    private void jsClick(By locator) {
+        WebElement el = WaitUtils.visible(locator);
+        ((JavascriptExecutor) driver)
+                .executeScript("arguments[0].click();", el);
     }
 }

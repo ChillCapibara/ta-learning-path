@@ -20,20 +20,14 @@ XPath is allowed when:
 **Examples**
 
 Bad:
->@FindBy(css = ".fc-cta-consent.fc-primary-button")
->
-> private WebElement cookiesAcceptButton;
+>> protected static final By COOKIES_ACCEPT_BUTTON = By.cssSelector(".fc-cta-consent.fc-primary-button")
 
 Good:
->@FindBy(css = "[aria-label]='Consent'")
->
-> private WebElement cookiesAcceptButton;
+> protected static final By COOKIES_ACCEPT_BUTTON = By.cssSelector("[aria-label='Consent']");
 ---
 >
 Bad:
->@FindBy(xpath= "/html/body/div[3]/div[2]/div[2]/div[2]/div[2]/button[1]"
->
-> private WebElement cookiesAcceptButton;
+>protected static final By COOKIES_ACCEPT_BUTTON = By.xpath("/html/body/div[3]/div[2]/div[2]/div[2]/div[2]/button[1]")
 
 
 Good:
@@ -43,6 +37,4 @@ located only via inner element text.
 
 - avoid exact attribute match (ex. /p[someCondition]/..)
 - prefer the filtering over reaching directly inside the path
->@FindBy(xpath= "//button[contains(@class, 'fc-cta-consent')][.//text()[contains(., 'Consent')]]"
->
-> private WebElement cookiesAcceptButton;
+>protected static final By COOKIES_ACCEPT_BUTTON = By.xpath("//button[contains(@class, 'fc-cta-consent')][.//text()[contains(., 'Consent')]]")

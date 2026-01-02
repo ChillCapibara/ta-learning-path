@@ -1,8 +1,7 @@
 package ui.pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 import ui.base.BasePage;
 
 public class LandingPage extends BasePage {
@@ -11,11 +10,10 @@ public class LandingPage extends BasePage {
         super(driver);
     }
 
-    @FindBy(css = ".woocommerce-MyAccount-content > p")
-    private WebElement welcomeText;
+    protected static final By WELCOME_TEXT = By.xpath("//*[starts-with(normalize-space(), 'Hello')]/strong");
 
 
     public String getWelcomeText(){
-        return welcomeText.getText();
+        return getText(WELCOME_TEXT);
     }
 }

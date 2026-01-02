@@ -1,5 +1,6 @@
 package ui.pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -19,28 +20,22 @@ public class LoginPage extends BasePage {
         super(driver);
     }
 
-    @FindBy(css = "[aria-label]='Consent'")
-    private WebElement cookiesAcceptButton;
+    protected static final By COOKIES_ACCEPT_BUTTON = By.cssSelector("[aria-label='Consent']");
+    protected static final By LOGIN_FIELD = By.id("username");
+    protected static final By PASSWORD_FIELD = By.id("password");
+    protected static final By LOGIN_BUTTON = By.name("login");
 
-    @FindBy(id = "username")
-    private WebElement loginField;
-
-    @FindBy(id = "password")
-    private WebElement passwordField;
-
-    @FindBy(name = "login")
-    private WebElement loginBtn;
 
     public LandingPage signIn(){
-        enterValue(loginField, userLogin);
-        enterValue(passwordField, userPassword);
-        click(loginBtn);
+        enterValue(LOGIN_FIELD, userLogin);
+        enterValue(PASSWORD_FIELD, userPassword);
+        click(LOGIN_BUTTON);
         return new LandingPage(driver);
     }
 
     public LoginPage open(){
         navigateTo(loginUrl);
-        click(cookiesAcceptButton);
+        click(COOKIES_ACCEPT_BUTTON);
         return this;
     }
 
