@@ -1,8 +1,8 @@
-package ui.base;
+package com.szymon.ta.base;
 
 import org.openqa.selenium.*;
-import utils.Config;
-import utils.WaitUtils;
+import com.szymon.ta.utils.Config;
+import com.szymon.ta.utils.WaitUtils;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public abstract class BasePage {
     protected void click(By locator) {
         for (int attempt = 1; attempt <= maxRetries; attempt++) {
             try {
-                WaitUtils.clickable(locator).click();
+                WaitUtils.getElementIfClickable(locator).click();
                 return;
             } catch (ElementClickInterceptedException | StaleElementReferenceException | TimeoutException e) {
                 if (attempt == maxRetries) {
@@ -34,22 +34,22 @@ public abstract class BasePage {
     }
 
     protected void enterValue(By locator, CharSequence value) {
-        WebElement element = WaitUtils.visible(locator);
+        WebElement element = WaitUtils.getElementIfVisible(locator);
         element.clear();
         element.sendKeys(value);
     }
 
     // Multiple elements interactions will be added once needed
     protected List<WebElement> visibleElements(By locator) {
-        return WaitUtils.visibleAll(locator);
+        return WaitUtils.getAllVisibleElement(locator);
     }
 
     protected String getText(By locator){
-        return WaitUtils.visible(locator).getText();
+        return WaitUtils.getElementIfVisible(locator).getText();
     }
 
     private void jsClick(By locator) {
-        WebElement el = WaitUtils.visible(locator);
+        WebElement el = WaitUtils.getElementIfVisible(locator);
         ((JavascriptExecutor) driver)
                 .executeScript("arguments[0].click();", el);
     }

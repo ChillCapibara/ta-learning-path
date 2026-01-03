@@ -1,22 +1,17 @@
-package ui.pages;
+package com.szymon.ta.pages;
 
+import com.szymon.ta.base.BasePage;
+import com.szymon.ta.model.User;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import ui.base.BasePage;
-import utils.Config;
-import utils.Endpoint;
+import com.szymon.ta.utils.Endpoint;
 
 public class LoginPage extends BasePage {
-    //potentially sensitive data
-    private final String userLogin = Config.get("login.username");
-    private final String userPassword = Config.get("login.password");
 
     private final String loginUrl = Endpoint.MY_ACCOUNT.url();
 
 
-    public LoginPage(WebDriver driver){
+    public LoginPage(WebDriver driver) {
         super(driver);
     }
 
@@ -26,15 +21,19 @@ public class LoginPage extends BasePage {
     protected static final By LOGIN_BUTTON = By.name("login");
 
 
-    public LandingPage signIn(){
-        enterValue(LOGIN_FIELD, userLogin);
-        enterValue(PASSWORD_FIELD, userPassword);
+    public LandingPage signInAs(User user) {
+        enterValue(LOGIN_FIELD, user.getUsername());
+        enterValue(PASSWORD_FIELD, user.getPassword());
         click(LOGIN_BUTTON);
         return new LandingPage(driver);
     }
 
-    public LoginPage open(){
+    public LoginPage open() {
         navigateTo(loginUrl);
+        return this;
+    }
+
+    public LoginPage acceptCookies() {
         click(COOKIES_ACCEPT_BUTTON);
         return this;
     }

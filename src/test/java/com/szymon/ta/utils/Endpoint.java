@@ -1,4 +1,4 @@
-package utils;
+package com.szymon.ta.utils;
 
 public enum Endpoint {
 

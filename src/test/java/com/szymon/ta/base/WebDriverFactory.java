@@ -1,8 +1,8 @@
-package ui.base;
+package com.szymon.ta.base;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
-import ui.enums.BrowserType;
+import com.szymon.ta.enums.BrowserType;
 
 public class WebDriverFactory {
 

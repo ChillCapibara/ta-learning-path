@@ -1,8 +1,8 @@
-package ui.pages;
+package com.szymon.ta.pages;
 
+import com.szymon.ta.base.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import ui.base.BasePage;
 
 public class LandingPage extends BasePage {
 

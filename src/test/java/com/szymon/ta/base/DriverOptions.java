@@ -1,6 +1,6 @@
-package ui.base;
+package com.szymon.ta.base;
 
-import ui.enums.WindowMode;
+import com.szymon.ta.enums.WindowMode;
 
 public class DriverOptions {
 

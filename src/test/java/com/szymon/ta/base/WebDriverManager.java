@@ -1,9 +1,9 @@
-package ui.base;
+package com.szymon.ta.base;
 
 import org.openqa.selenium.WebDriver;
-import ui.enums.BrowserType;
-import ui.enums.WindowMode;
-import utils.Config;
+import com.szymon.ta.enums.BrowserType;
+import com.szymon.ta.enums.WindowMode;
+import com.szymon.ta.utils.Config;
 
 import java.time.Duration;
 import java.util.Arrays;

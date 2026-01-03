@@ -1,4 +1,4 @@
-package ui.enums;
+package com.szymon.ta.enums;
 
 public enum WindowMode {
     DEFAULT,

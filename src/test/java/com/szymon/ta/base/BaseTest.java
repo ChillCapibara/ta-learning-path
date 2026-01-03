@@ -1,10 +1,8 @@
-package com.szymon.ui.base;
+package com.szymon.ta.base;
 
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
-import ui.base.WebDriverFactory;
-import ui.base.WebDriverManager;
 
 public class BaseTest {
 
