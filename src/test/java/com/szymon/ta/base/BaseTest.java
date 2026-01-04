@@ -1,7 +1,7 @@
 package com.szymon.ta.base;
 
 import org.openqa.selenium.WebDriver;
-import org.testng.annotations.AfterTest;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
 public class BaseTest {
@@ -14,7 +14,7 @@ public class BaseTest {
         beforeEachTest();
     }
 
-    @AfterTest
+    @AfterMethod(alwaysRun = true)
     public void tearDown(){
         WebDriverManager.quitDriver();
     }
