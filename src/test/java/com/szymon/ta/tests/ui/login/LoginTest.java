@@ -3,7 +3,6 @@ package com.szymon.ta.tests.ui.login;
 import com.szymon.ta.base.BaseTest;
 import com.szymon.ta.data.Users;
 import org.testng.Assert;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import com.szymon.ta.pages.LandingPage;
 import com.szymon.ta.pages.LoginPage;
@@ -12,8 +11,8 @@ public class LoginTest extends BaseTest {
 
     private LoginPage loginPage;
 
-    @BeforeTest
-    public void setUp(){
+    @Override
+    public void beforeEachTest(){
         loginPage = new LoginPage(driver());
         loginPage
                 .open()

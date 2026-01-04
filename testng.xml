@@ -1,0 +1,10 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="UI Automation Suite" parallel="false">
+
+    <test name="UI Tests">
+        <classes>
+            <class name="com.szymon.ta.tests.ui.login.LoginTest"/>
+        </classes>
+    </test>
+
+</suite>
