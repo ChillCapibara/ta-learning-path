@@ -1,6 +1,6 @@
-package com.szymon.ta.pages;
+package framework.pages;
 
-import com.szymon.ta.base.BasePage;
+import framework.base.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 

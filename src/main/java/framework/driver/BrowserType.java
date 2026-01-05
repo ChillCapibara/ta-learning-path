@@ -1,6 +1,5 @@
-package com.szymon.ta.enums;
+package framework.driver;
 
-import com.szymon.ta.base.DriverOptions;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;

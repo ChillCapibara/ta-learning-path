@@ -1,5 +1,6 @@
-package com.szymon.ta.base;
+package framework.base;
 
+import framework.driver.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;

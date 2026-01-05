@@ -1,4 +1,4 @@
-package com.szymon.ta.utils;
+package framework.config;
 
 import java.io.IOException;
 import java.io.InputStream;

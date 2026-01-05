@@ -1,10 +1,10 @@
-package com.szymon.ta.pages;
+package framework.pages;
 
-import com.szymon.ta.base.BasePage;
-import com.szymon.ta.model.User;
+import framework.base.BasePage;
+import framework.model.User;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import com.szymon.ta.utils.Endpoint;
+import framework.navigation.Endpoint;
 
 public class LoginPage extends BasePage {
 
@@ -29,7 +29,7 @@ public class LoginPage extends BasePage {
     }
 
     public LoginPage open() {
-        navigateTo(loginUrl);
+        open(loginUrl);
         return this;
     }
 

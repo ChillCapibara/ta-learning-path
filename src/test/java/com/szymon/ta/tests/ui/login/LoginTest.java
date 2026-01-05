@@ -1,11 +1,11 @@
 package com.szymon.ta.tests.ui.login;
 
-import com.szymon.ta.base.BaseTest;
-import com.szymon.ta.data.Users;
+import framework.base.BaseTest;
+import framework.data.Users;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import com.szymon.ta.pages.LandingPage;
-import com.szymon.ta.pages.LoginPage;
+import framework.pages.LandingPage;
+import framework.pages.LoginPage;
 
 public class LoginTest extends BaseTest {
 

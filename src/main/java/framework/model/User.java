@@ -1,4 +1,4 @@
-package com.szymon.ta.model;
+package framework.model;
 
 import lombok.Data;
 

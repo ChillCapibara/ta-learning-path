@@ -1,4 +1,4 @@
-package com.szymon.ta.enums;
+package framework.driver;
 
 public enum WindowMode {
     DEFAULT,

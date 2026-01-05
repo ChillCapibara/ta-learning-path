@@ -1,7 +1,7 @@
-package com.szymon.ta.data;
+package framework.data;
 
-import com.szymon.ta.model.User;
-import com.szymon.ta.utils.Config;
+import framework.model.User;
+import framework.config.Config;
 
 public class Users {
 

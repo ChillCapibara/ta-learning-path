@@ -1,9 +1,7 @@
-package com.szymon.ta.base;
+package framework.driver;
 
+import framework.config.Config;
 import org.openqa.selenium.WebDriver;
-import com.szymon.ta.enums.BrowserType;
-import com.szymon.ta.enums.WindowMode;
-import com.szymon.ta.utils.Config;
 
 import java.time.Duration;
 import java.util.Arrays;

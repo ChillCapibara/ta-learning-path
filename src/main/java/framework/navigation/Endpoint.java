@@ -1,4 +1,6 @@
-package com.szymon.ta.utils;
+package framework.navigation;
+
+import framework.config.Config;
 
 public enum Endpoint {
 

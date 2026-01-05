@@ -1,5 +1,6 @@
-package com.szymon.ta.utils;
+package framework.base;
 
+import framework.config.Config;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
@@ -12,10 +13,10 @@ import org.openqa.selenium.support.ui.Wait;
 import java.time.Duration;
 import java.util.List;
 
-import static com.szymon.ta.base.WebDriverManager.getDriver;
+import static framework.driver.WebDriverManager.getDriver;
 
 
-public final class WaitUtils {
+class WaitUtils {
 
     private WaitUtils() {}
 
@@ -27,29 +28,27 @@ public final class WaitUtils {
                 .ignoring(StaleElementReferenceException.class);
     }
 
-    public static WebElement getElementIfClickable(By locator) {
+    static WebElement getElementIfClickable(By locator) {
         return fluentWait().until(
                 ExpectedConditions.elementToBeClickable(locator)
         );
     }
 
-    public static WebElement getElementIfVisible(By locator) {
+    static WebElement getElementIfVisible(By locator) {
         return fluentWait().until(
                 ExpectedConditions.visibilityOfElementLocated(locator)
         );
     }
 
-    public static List<WebElement> getAllVisibleElement(By locator) {
+    static List<WebElement> getAllVisibleElement(By locator) {
         return fluentWait().until(
                 ExpectedConditions.visibilityOfAllElementsLocatedBy(locator)
         );
     }
 
-    public static boolean isInvisible(By locator) {
+    static boolean isInvisible(By locator) {
         return fluentWait().until(
                 ExpectedConditions.invisibilityOfElementLocated(locator)
         );
     }
-
-
 }
