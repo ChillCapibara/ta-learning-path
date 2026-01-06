@@ -33,7 +33,7 @@
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
-            <version>4.38.0</version>
+            <version>4.39.0</version>
         </dependency>
 
         <dependency>
@@ -42,6 +42,21 @@
             <version>7.9.0</version>
             <scope>compile</scope>
         </dependency>
+
+        <!-- Logging API (what you code against) -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>2.0.17</version>
+        </dependency>
+
+        <!-- Logging backend (does the actual printing) -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.5.23</version>
+        </dependency>
+
     </dependencies>
 
     <build>
