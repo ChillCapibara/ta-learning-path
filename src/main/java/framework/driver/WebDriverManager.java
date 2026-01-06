@@ -6,10 +6,13 @@ import org.openqa.selenium.WebDriver;
 import java.time.Duration;
 import java.util.Arrays;
 import org.openqa.selenium.Dimension;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class WebDriverManager {
 
     private static final ThreadLocal<WebDriver> driverThread = new ThreadLocal<>();
+    private static final Logger log = LoggerFactory.getLogger(WebDriverManager.class);
 
 
     public static WebDriver setDriver(){
@@ -22,7 +25,12 @@ public class WebDriverManager {
 
             // lifecycle/configuration
             configureDriver(driver);
+
             applyWindowMode(driver, options);
+            log.info("Creating WebDriver: browser={}, headless={}, windowMode={}",
+                    browserType,
+                    options.isHeadless(),
+                    options.getWindowMode());
             driverThread.set(driver);
         }
         return driverThread.get();
@@ -49,8 +57,20 @@ public class WebDriverManager {
     }
 
     public static void quitDriver() {
-        if (driverThread.get() != null) {
-            driverThread.get().quit();
+        WebDriver driver = getDriver();
+
+        if (driver == null) {
+            log.debug("quitDriver called but WebDriver was null (already quit or not initialized");
+            return;
+        }
+
+        log.info("Quitting WebDriver");
+        try {
+            driver.quit();
+        } catch (Exception e){
+            log.warn("Exception during WebDriver .quit()", e);
+        } finally {
+            // failsafe against ThreadLocal leaks
             driverThread.remove();
         }
     }
@@ -71,7 +91,9 @@ public class WebDriverManager {
     private static void configureDriver(WebDriver driver){
             //Global config values read centrally
             int waitTimeout = Config.getInt("wait.timeout");
+
             driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(waitTimeout));
+            log.debug("Driver configured: implicit wait={}s", Config.get("wait.timeout"));
     }
 
     private static WindowMode getWindowMode() {

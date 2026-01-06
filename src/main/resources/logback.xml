@@ -1,0 +1,22 @@
+<configuration>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!-- time level [thread] logger - message -->
+            <pattern>%d{HH:mm:ss.SSS} %-5level [%thread] [%X{test}] %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- default level -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+    <!-- your framework can be more verbose -->
+    <logger name="framework" level="DEBUG"/>
+
+    <!-- reduce Selenium noise -->
+    <logger name="org.openqa.selenium" level="INFO"/>
+    <logger name="io.github.bonigarcia" level="INFO"/>
+
+</configuration>
