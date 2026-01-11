@@ -20,17 +20,27 @@ The framework separates **test intent from infrastructure**, enforces strong bou
 ## Project structure (high level)
 
 ```text
-src/main/java/framework
-├── base          // BasePage, BaseTest, internal helpers
-├── driver        // WebDriver lifecycle, factories, enums
-├── config        // Configuration access
-├── navigation    // URLs and endpoints
-├── pages         // Page Objects
-├── model         // Domain models
-├── data          // Test data factories
+Module layout
 
-src/test/java
+framework-core/src/main/java/framework
+├── config        // Configuration access (Config)
+├── navigation    // URLs and endpoints (Urls, Endpoint)
+├── model         // Domain models (User)
+└── data          // Test data factories (Users)
+
+framework-core/src/main/resources
+└── config.properties
+
+framework-web/src/main/java/framework
+├── base          // BasePage + internal web helpers (ElementActions, WaitUtils, JsActions)
+├── driver        // WebDriver lifecycle, factories, enums
+└── pages         // Page Objects
+
+framework-web/src/test/java
 └── tests         // Test scenarios only
+
+framework-web/src/test/resources
+└── testng.xml    // TestNG suite configuration (and test-only logging config if used)
 ```
 ---
 ## Tech stack
