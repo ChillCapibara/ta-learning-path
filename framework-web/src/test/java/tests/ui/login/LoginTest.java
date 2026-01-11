@@ -1,4 +1,4 @@
-package com.szymon.ta.tests.ui.login;
+package tests.ui.login;
 
 import framework.base.BaseTest;
 import framework.data.Users;
