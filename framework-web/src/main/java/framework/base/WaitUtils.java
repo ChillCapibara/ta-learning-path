@@ -1,6 +1,7 @@
 package framework.base;
 
 import framework.config.Config;
+import framework.driver.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
@@ -51,4 +52,18 @@ class WaitUtils {
                 ExpectedConditions.invisibilityOfElementLocated(locator)
         );
     }
+
+    public static String waitForTextToChange(By locator) {
+        WebDriver driver = WebDriverManager.getDriver();
+
+        String initial = driver.findElement(locator).getText().trim();
+
+        fluentWait().until(d -> {
+            String now = d.findElement(locator).getText().trim();
+            return !now.equals(initial);
+        });
+
+        return driver.findElement(locator).getText().trim();
+    }
+
 }

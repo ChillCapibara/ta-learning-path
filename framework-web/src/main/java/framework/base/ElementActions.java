@@ -48,4 +48,9 @@ class ElementActions {
         log.debug("Retrieved text for {}", locator);
         return WaitUtils.getElementIfVisible(locator).getText();
     }
+
+    String waitForTextToChange(By locator) {
+        return WaitUtils.waitForTextToChange(locator);
+    }
+
 }

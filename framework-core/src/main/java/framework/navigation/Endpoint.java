@@ -4,7 +4,8 @@ import framework.config.Config;
 
 public enum Endpoint {
 
-    MY_ACCOUNT("/my-account");
+    MY_ACCOUNT("/my-account"),
+    CART("/basket/");
 
     private final String path;
 

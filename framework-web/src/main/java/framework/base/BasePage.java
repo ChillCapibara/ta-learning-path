@@ -59,6 +59,11 @@ public abstract class BasePage {
         }
     }
 
+    protected String waitForTextToChange(By locator) {
+        log.debug("Wait for text to change: {}", locator);
+        return actions.waitForTextToChange(locator);
+    }
+
     // ===== navigation helpers =====
 
     protected void open(String url) {
