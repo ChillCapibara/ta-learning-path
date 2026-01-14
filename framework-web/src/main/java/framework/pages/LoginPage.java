@@ -42,4 +42,9 @@ public class LoginPage extends BasePage {
     public String getErrorMsg() {
         return getText(ERROR_MSG_NO_SUCH_USER);
     }
+
+    public boolean loginPageIsOpened(){
+        return !visibleElements(LOGIN_FIELD).isEmpty();
+    }
+
 }

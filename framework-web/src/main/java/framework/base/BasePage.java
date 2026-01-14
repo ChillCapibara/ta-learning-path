@@ -20,25 +20,55 @@ public abstract class BasePage {
     // ===== interaction facade =====
 
     protected void click(By locator) {
-        actions.click(locator);
+        log.debug("Click: {}", locator);
+        try{
+            actions.click(locator);
+        } catch (Exception e){
+            log.error("Click failed: {}", locator, e);
+            throw e;
+        }
     }
 
     protected void enterValue(By locator, CharSequence value) {
-        actions.enterValue(locator, value);
+        log.debug("Enter: {}, into field: {}", value, locator);
+        try{
+            actions.enterValue(locator, value);
+        } catch (Exception e){
+            log.error("Enter {} into {} field failed", value, locator, e);
+            throw e;
+        }
     }
 
     protected String getText(By locator) {
-        return actions.getText(locator);
+        log.debug("Retrieve text with {} locator", locator);
+        try{
+            return actions.getText(locator);
+        } catch (Exception e){
+            log.error("Get text failed: {}", locator, e);
+            throw e;
+        }
     }
 
     protected List<WebElement> visibleElements(By locator) {
-        return actions.visibleElements(locator);
+        log.debug("Retrieve elements with {} locator", locator);
+        try{
+            return actions.visibleElements(locator);
+        } catch (Exception e){
+            log.error("Get list of elements with {} failed", locator, e);
+            throw e;
+        }
     }
 
     // ===== navigation helpers =====
 
     protected void open(String url) {
-        driver.get(url);
+        log.debug("Open url {}", url);
+        try{
+            driver.get(url);
+        } catch (Exception e){
+            log.error("Open url failed: {}", url, e);
+            throw e;
+        }
     }
 
 }
