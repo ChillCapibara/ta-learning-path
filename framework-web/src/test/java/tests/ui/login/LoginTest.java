@@ -2,6 +2,7 @@ package tests.ui.login;
 
 import framework.base.BaseTest;
 import framework.data.Users;
+import framework.model.User;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import framework.pages.LandingPage;
@@ -25,6 +26,24 @@ public class LoginTest extends BaseTest {
         String welcomeText = landingPage.getWelcomeText();
 
         Assert.assertTrue(welcomeText.contains("loremSzymon"), "A user is not signed in!");
+    }
+
+    @Test
+    public void testLoginWithNoSuchUser(){
+        loginPage.signInAs(Users.invalid("Capybara", "invalidPassword1234!"));
+        String errorMsg = loginPage.getErrorMsg();
+
+        Assert.assertEquals(errorMsg, "Error: The username Capybara is not registered on this site. If you are unsure of your username, try your email address instead.");
+    }
+
+    @Test
+    public void testLoginInvalidPassword(){
+        User valid = Users.valid();
+        loginPage.signInAs(Users.invalid(valid.getUsername(), "invalidPassword1234!"));
+
+        String errorMsg = loginPage.getErrorMsg();
+        Assert.assertEquals(errorMsg, "Error: The password you entered for the username loremSzymon@ipsum.com is incorrect. Lost your password?");
+
     }
 
 }

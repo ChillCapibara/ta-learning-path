@@ -19,6 +19,7 @@ public class LoginPage extends BasePage {
     protected static final By LOGIN_FIELD = By.id("username");
     protected static final By PASSWORD_FIELD = By.id("password");
     protected static final By LOGIN_BUTTON = By.name("login");
+    protected static final By ERROR_MSG_NO_SUCH_USER = By.cssSelector(".woocommerce-error li");
 
 
     public LandingPage signInAs(User user) {
@@ -38,4 +39,7 @@ public class LoginPage extends BasePage {
         return this;
     }
 
+    public String getErrorMsg() {
+        return getText(ERROR_MSG_NO_SUCH_USER);
+    }
 }
