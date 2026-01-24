@@ -14,6 +14,8 @@ public class RetryAnalyzer implements IRetryAnalyzer {
 
     @Override
     public boolean retry(ITestResult result) {
+        log.warn("retry() called for {}, attempt={}, max={}",
+                result.getMethod().getMethodName(), attempt, maxRetries);
         if (attempt < maxRetries){
             attempt++;
             log.warn(

@@ -3,6 +3,7 @@
 
     <listeners>
         <listener class-name="framework.listeners.MdcTestListener"/>
+        <listener class-name="framework.listeners.RetryListener"/>
     </listeners>
 
     <test name="ui-login">

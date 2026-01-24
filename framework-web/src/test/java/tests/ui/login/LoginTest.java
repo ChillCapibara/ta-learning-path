@@ -66,4 +66,13 @@ public class LoginTest extends BaseTest {
                 "Login field was not found, a different page might be opened!");
     }
 
+    // Failing on purpose to trigger the retry logic
+    @Test
+    public void failingTestToConfirmRetryLogic() {
+        LandingPage landingPage = loginPage.signInAs(Users.valid());
+        String welcomeText = landingPage.getWelcomeText();
+
+        Assert.assertTrue(welcomeText.contains("Grumpy Wombat"), "Wrong user!");
+    }
+
 }

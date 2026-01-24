@@ -52,9 +52,10 @@ public class ShopTest extends BaseTest {
 
         CartPage cartPage = shopPage.clickCartIcon();
         String cartProductTitle = cartPage.getProductTitle();
+        String expectedTitle = "Android Quick Start Guide";
 
-        Assert.assertTrue(cartProductTitle.contains("Android Quick Start Guide"),
-                "Unexpected product title: " + cartProductTitle);
+        Assert.assertTrue(cartProductTitle.contains(expectedTitle),
+                String.format("\nUnexpected product title: %s \nExpected: %s", cartProductTitle, expectedTitle));
     }
 
 }
