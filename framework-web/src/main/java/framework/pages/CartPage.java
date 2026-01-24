@@ -16,7 +16,7 @@ public class CartPage extends BasePage {
     protected static final By PRODUCT_REMOVE_UNDO = By.cssSelector(".woocommerce-message a");
 
     public CartPage open() {
-        open(Endpoint.CART.url());  // or Config.get("url.cart")
+        open(Endpoint.CART.url());
         return this;
     }
 
