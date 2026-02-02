@@ -13,6 +13,7 @@ import org.openqa.selenium.support.ui.Wait;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.function.Supplier;
 
 import static framework.driver.WebDriverManager.getDriver;
 
@@ -53,7 +54,7 @@ class WaitUtils {
         );
     }
 
-    public static String waitForTextToChange(By locator) {
+    static String waitForTextToChange(By locator) {
         WebDriver driver = WebDriverManager.getDriver();
 
         String initial = driver.findElement(locator).getText().trim();
@@ -64,6 +65,17 @@ class WaitUtils {
         });
 
         return driver.findElement(locator).getText().trim();
+    }
+
+    static void waitForSpinnerToDisappearIfPresent(By spinnerLocator){
+        if (WebDriverManager.getDriver().findElements(spinnerLocator).isEmpty()) {
+            return;
+        }
+        fluentWait().until(ExpectedConditions.invisibilityOfElementLocated(spinnerLocator));
+    }
+
+    static void waitUntil(Supplier<Boolean> condition) {
+        fluentWait().until(d -> Boolean.TRUE.equals(condition.get()));
     }
 
 }

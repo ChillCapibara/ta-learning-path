@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 public abstract class BasePage {
 
@@ -76,4 +77,17 @@ public abstract class BasePage {
         }
     }
 
+    // ===== wait helpers =====
+
+    protected void waitForSpinnerToDisappearIfPresent(By spinnerLocator){
+        WaitUtils.waitForSpinnerToDisappearIfPresent(spinnerLocator);
+    }
+
+    protected void waitUntil(String reason, Supplier<Boolean> condition){
+        try{
+            WaitUtils.waitUntil(condition);
+        } catch (TimeoutException e){
+            throw new TimeoutException("Wait timed out " + reason, e);
+        }
+    }
 }

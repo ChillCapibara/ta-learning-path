@@ -1,6 +1,7 @@
 package framework.pages;
 
 import framework.base.BasePage;
+import framework.base.StabilityLocators;
 import framework.navigation.Endpoint;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -13,7 +14,7 @@ public class CartPage extends BasePage {
 
     protected static final By PRODUCT_TITLE = By.cssSelector("[data-title='Product']");
     protected static final By PRODUCT_REMOVE = By.cssSelector(".product-remove a");
-    protected static final By PRODUCT_REMOVE_UNDO = By.cssSelector(".woocommerce-message a");
+//    protected static final By PRODUCT_REMOVE_UNDO = By.cssSelector(".woocommerce-message a");
 
     public CartPage open() {
         open(Endpoint.CART.url());
@@ -25,11 +26,20 @@ public class CartPage extends BasePage {
     }
 
     public void removeAllProductsIfPresent() {
-        int maxIterations = 20;
+        while (!visibleElements(PRODUCT_REMOVE).isEmpty()) {
+            //find all remove buttons
+            int before = visibleElements(PRODUCT_REMOVE).size();
 
-        while (!visibleElements(PRODUCT_REMOVE).isEmpty() && maxIterations-- > 0) {
             click(PRODUCT_REMOVE);
-            getText(PRODUCT_REMOVE_UNDO); // confirmation that product was removed
+            waitForSpinnerToDisappearIfPresent(StabilityLocators.SPINNER);
+
+            waitUntilItemIsRemoved(before);
         }
     }
+
+    private void waitUntilItemIsRemoved(int countBefore) {
+        waitUntil("Cart item count should decrease after clicking remove",
+                () -> visibleElements(PRODUCT_REMOVE).size() < countBefore);
+    }
+
 }
