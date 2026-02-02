@@ -11,6 +11,7 @@
     </parent>
 
     <artifactId>framework-core</artifactId>
+    <packaging>jar</packaging>
 
     <dependencies>
         <!-- Core uses LoggerFactory / logging API -->
@@ -19,15 +20,10 @@
             <artifactId>slf4j-api</artifactId>
         </dependency>
 
-        <!-- User.java uses Lombok (@Data) in src/main -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
+            <version>1.18.34</version>
         </dependency>
     </dependencies>
 </project>

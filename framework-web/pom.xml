@@ -11,46 +11,44 @@
     </parent>
 
     <artifactId>framework-web</artifactId>
+    <packaging>jar</packaging>
 
     <dependencies>
-        <!-- depends on your core module -->
+        <!-- Depend on core -->
         <dependency>
             <groupId>com.szymon.sdet</groupId>
             <artifactId>framework-core</artifactId>
             <version>${project.version}</version>
         </dependency>
 
-        <!-- Selenium is used in src/main -> must be compile scope (default) -->
+        <!-- Selenium (compile) -->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
         </dependency>
 
-        <!-- Used in src/main (WebDriverFactory) -> compile scope (default) -->
+        <!-- WebDriverManager (compile) -->
         <dependency>
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
-            <version>6.3.3</version>
         </dependency>
 
-        <!-- Logging API in src/main -->
+        <!-- Logging API (compile) -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
         </dependency>
 
-        <!-- TestNG for tests (LoginTest, BaseTest if under src/test) -->
+        <!-- Test deps -->
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <scope>test</scope>
         </dependency>
 
-        <!-- Logback binding only for test runtime -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.5.24</version>
             <scope>test</scope>
         </dependency>
 
@@ -59,7 +57,6 @@
             <artifactId>allure-testng</artifactId>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 
     <build>
@@ -73,13 +70,16 @@
                     <systemPropertyVariables>
                         <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
                     </systemPropertyVariables>
+
                     <suiteXmlFiles>
                         <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
                     </suiteXmlFiles>
+
                     <argLine>
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
                     </argLine>
                 </configuration>
+
                 <dependencies>
                     <dependency>
                         <groupId>org.aspectj</groupId>
@@ -88,13 +88,6 @@
                     </dependency>
                 </dependencies>
             </plugin>
-
-            <plugin>
-                <groupId>io.qameta.allure</groupId>
-                <artifactId>allure-maven</artifactId>
-                <version>2.17.0</version>
-            </plugin>
-
         </plugins>
     </build>
 </project>

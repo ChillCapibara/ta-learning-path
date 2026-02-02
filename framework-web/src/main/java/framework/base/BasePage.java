@@ -80,7 +80,12 @@ public abstract class BasePage {
     // ===== wait helpers =====
 
     protected void waitForSpinnerToDisappearIfPresent(By spinnerLocator){
-        WaitUtils.waitForSpinnerToDisappearIfPresent(spinnerLocator);
+        try{
+            WaitUtils.waitForSpinnerToDisappearIfPresent(spinnerLocator);
+        } catch (TimeoutException e){
+            throw new TimeoutException(
+                    "[SPINNER_TIMEOUT] spinner did not disappear: " + spinnerLocator, e);
+        }
     }
 
     protected void waitUntil(String reason, Supplier<Boolean> condition){

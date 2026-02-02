@@ -1,6 +1,9 @@
 package framework.base;
 
 import framework.config.Config;
+import framework.stability.FailureReason;
+import framework.stability.WebFailureClassifier;
+import framework.stability.WebRetryPolicy;
 import org.openqa.selenium.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,17 +21,32 @@ class ElementActions {
                 WaitUtils.getElementIfClickable(locator).click();
                 log.debug("Clicked {}", locator);
                 return;
+
             } catch (ElementClickInterceptedException |
                      StaleElementReferenceException |
                      TimeoutException e) {
-                log.debug("Click attempt {}/{} failed for {} ({})",
-                        attempt, maxRetries, locator, e.getClass().getSimpleName());
-                if (attempt == maxRetries) {
-                    log.warn("Fallback JS click used for {}", locator);
-                    new JsActions().jsClick(locator);
+
+                FailureReason reason = WebFailureClassifier.classify(e);
+
+                boolean retryable = WebRetryPolicy.isRetryable(reason);
+                boolean hasNextAttempt = attempt < maxRetries;
+
+                log.warn("Click failed reason={} attempt={}/{} locator={} error={}",
+                        reason, attempt, maxRetries, locator, e.getClass().getSimpleName());
+
+                if (!retryable || !hasNextAttempt) {
+                    throw e;
                 }
+                log.info("Retrying click reason={} nextAttempt={}/{} locator={}",
+                        reason, attempt + 1, maxRetries, locator);
             }
         }
+    }
+
+    // to be used explicitly, only as a last resort
+    void jsClick(By locator) {
+        log.warn("JS click used for {}", locator);
+        new JsActions().jsClick(locator);
     }
 
     void enterValue(By locator, CharSequence value) {

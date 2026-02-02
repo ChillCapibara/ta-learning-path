@@ -1,5 +1,7 @@
 package framework.listeners;
 
+import framework.stability.FailureReason;
+import framework.stability.WebFailureClassifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -15,6 +17,8 @@ import java.io.ByteArrayInputStream;
 
 public class MdcTestListener implements ITestListener {
 
+    protected final Logger log = LoggerFactory.getLogger(MdcTestListener.class);
+
     @Override
     public void onTestStart(ITestResult result) {
         // method name is usually enough; you can also include class
@@ -29,6 +33,12 @@ public class MdcTestListener implements ITestListener {
 
     @Override
     public void onTestFailure(ITestResult result) {
+        FailureReason reason = WebFailureClassifier.classify(result.getThrowable());
+        log.error("FAILURE_REASON={} test={} error={}",
+                reason,
+                result.getTestClass().getRealClass().getSimpleName() + "." + result.getName(),
+                result.getThrowable() == null ? "null" : result.getThrowable().toString());
+
         WebDriver driver = framework.driver.WebDriverManager.getDriver();
         if (driver != null) {
             try {
@@ -36,9 +46,11 @@ public class MdcTestListener implements ITestListener {
                 Allure.attachment("Screenshot - " + result.getName(),
                         new ByteArrayInputStream(png));
             } catch (Exception e) {
-                Logger log = LoggerFactory.getLogger(MdcTestListener.class);
                 log.warn("Failed to capture screenshot for {}: {}", result.getName(), e.toString());
             }
+            try {
+                Allure.attachment("URL - " + result.getName(), driver.getCurrentUrl());
+            } catch (Exception ignored) {}
         }
         MDC.remove("test");
     }
