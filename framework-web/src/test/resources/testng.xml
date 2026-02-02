@@ -4,6 +4,7 @@
     <listeners>
         <listener class-name="framework.listeners.MdcTestListener"/>
         <listener class-name="framework.listeners.RetryListener"/>
+        <listener class-name="framework.listeners.FailureArtifactsListener"/>
     </listeners>
 
     <test name="ui-login">
