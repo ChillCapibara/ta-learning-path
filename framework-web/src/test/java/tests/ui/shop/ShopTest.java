@@ -1,7 +1,7 @@
 package tests.ui.shop;
 
 import framework.base.BaseTest;
-import framework.data.Users;
+import framework.testdata.UserFactory;
 import framework.pages.CartPage;
 import framework.pages.LoginPage;
 import framework.pages.ShopPage;
@@ -23,7 +23,7 @@ public class ShopTest extends BaseTest {
         shopPage = loginPage
                 .open()
                 .acceptCookies()
-                .signInAs(Users.valid())
+                .signInAs(UserFactory.valid())
                 .clickShopLink();
     }
 
@@ -57,5 +57,4 @@ public class ShopTest extends BaseTest {
         Assert.assertTrue(cartProductTitle.contains(expectedTitle),
                 String.format("\nUnexpected product title: %s \nExpected: %s", cartProductTitle, expectedTitle));
     }
-
 }

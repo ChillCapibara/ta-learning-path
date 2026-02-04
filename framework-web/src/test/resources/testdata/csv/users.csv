@@ -1,0 +1,4 @@
+username,password,expected
+loremSzymon@ipsum.com,Test_1234!,SUCCESS
+wrong@ipsum.com,Test_1234!,ERROR_INVALID
+loremSzymon@ipsum.com,wrong_pass,ERROR_INVALID

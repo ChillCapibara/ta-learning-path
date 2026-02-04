@@ -1,9 +1,9 @@
-package framework.data;
+package framework.testdata;
 
-import framework.model.User;
+import framework.data.model.User;
 import framework.config.Config;
 
-public class Users {
+public class UserFactory {
 
     public static User valid(){
         return new User(

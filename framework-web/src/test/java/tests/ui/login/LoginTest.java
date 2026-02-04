@@ -2,8 +2,8 @@ package tests.ui.login;
 
 import framework.base.BaseTest;
 import framework.base.BrowserInteractions;
-import framework.data.Users;
-import framework.model.User;
+import framework.testdata.UserFactory;
+import framework.data.model.User;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import framework.pages.LandingPage;
@@ -23,7 +23,7 @@ public class LoginTest extends BaseTest {
 
     @Test
     public void testValidLogin() {
-        LandingPage landingPage = loginPage.signInAs(Users.valid());
+        LandingPage landingPage = loginPage.signInAs(UserFactory.valid());
         String welcomeText = landingPage.getWelcomeText();
 
         Assert.assertTrue(welcomeText.contains("loremSzymon"), "A user is not signed in!");
@@ -31,7 +31,7 @@ public class LoginTest extends BaseTest {
 
     @Test
     public void testLoginWithNoSuchUser() {
-        loginPage.signInAs(Users.invalid("Capybara", "invalidPassword1234!"));
+        loginPage.signInAs(UserFactory.invalid("Capybara", "invalidPassword1234!"));
         String errorMsg = loginPage.getErrorMsg();
 
         Assert.assertEquals(errorMsg, "Error: The username Capybara is not registered on this site. If you are unsure of your username, try your email address instead.");
@@ -39,8 +39,8 @@ public class LoginTest extends BaseTest {
 
     @Test
     public void testLoginInvalidPassword() {
-        User valid = Users.valid();
-        loginPage.signInAs(Users.invalid(valid.getUsername(), "invalidPassword1234!"));
+        User valid = UserFactory.valid();
+        loginPage.signInAs(UserFactory.invalid(valid.getUsername(), "invalidPassword1234!"));
 
         String errorMsg = loginPage.getErrorMsg();
         Assert.assertEquals(errorMsg, "Error: The password you entered for the username loremSzymon@ipsum.com is incorrect. Lost your password?");
@@ -48,7 +48,7 @@ public class LoginTest extends BaseTest {
 
     @Test
     public void testSignOut() {
-        LandingPage landingPage = loginPage.signInAs(Users.valid());
+        LandingPage landingPage = loginPage.signInAs(UserFactory.valid());
         LoginPage loginPage = landingPage.signOut();
 
         Assert.assertTrue(loginPage.loginPageIsOpened(), "Login field was not found, a different page might be opened!");
@@ -57,7 +57,7 @@ public class LoginTest extends BaseTest {
     @Test
     public void testNavigateBackAfterSignOut() {
         LoginPage login = loginPage
-                .signInAs(Users.valid())
+                .signInAs(UserFactory.valid())
                 .signOut();
         BrowserInteractions.back();
 
@@ -69,7 +69,7 @@ public class LoginTest extends BaseTest {
     // Failing on purpose to trigger the retry logic
     @Test
     public void failingTestToConfirmRetryLogic() {
-        LandingPage landingPage = loginPage.signInAs(Users.valid());
+        LandingPage landingPage = loginPage.signInAs(UserFactory.valid());
         String welcomeText = landingPage.getWelcomeText();
 
         Assert.assertTrue(welcomeText.contains("Grumpy Wombat"), "Wrong user!");

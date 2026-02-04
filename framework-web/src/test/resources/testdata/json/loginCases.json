@@ -1,0 +1,5 @@
+[
+  { "username": "loremSzymon@ipsum.com", "password": "Test_1234!", "expected": "SUCCESS" },
+  { "username": "wrong@ipsum.com", "password": "Test_1234!", "expected": "ERROR_INVALID" },
+  { "username": "loremSzymon@ipsum.com", "password": "wrong_pass", "expected": "ERROR_INVALID" }
+]
