@@ -9,7 +9,7 @@
 
     <test name="ui-login">
         <classes>
-            <class name="tests.ui.shop.ShopTest"/>
+            <class name="tests.ui.login.LoginTest"/>
         </classes>
     </test>
 

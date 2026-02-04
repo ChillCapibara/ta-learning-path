@@ -15,7 +15,7 @@ public final class LoginDataProviders {
 
     @DataProvider(name = "usersCsv")
     public static Iterator<Object[]> usersCsv() {
-        List<String[]> rows = CsvReader.read("testdata/users.csv", true);
+        List<String[]> rows = CsvReader.read("testdata/csv/users.csv", true);
 
         return rows.stream()
                 .map(cols -> {
@@ -33,7 +33,7 @@ public final class LoginDataProviders {
 
     @DataProvider(name = "loginJson")
     public static Iterator<Object[]> loginJson() {
-        List<Map<String, Object>> cases = JsonReader.readListOfMaps("testdata/loginCases.json");
+        List<Map<String, Object>> cases = JsonReader.readListOfMaps("testdata/json/loginCases.json");
 
         return cases.stream()
                 .map(m -> {

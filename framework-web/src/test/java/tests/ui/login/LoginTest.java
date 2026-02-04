@@ -2,6 +2,7 @@ package tests.ui.login;
 
 import framework.base.BaseTest;
 import framework.base.BrowserInteractions;
+import framework.data.providers.LoginDataProviders;
 import framework.testdata.UserFactory;
 import framework.data.model.User;
 import org.testng.Assert;
@@ -75,4 +76,33 @@ public class LoginTest extends BaseTest {
         Assert.assertTrue(welcomeText.contains("Grumpy Wombat"), "Wrong user!");
     }
 
+    //=== mixed validations as a POC for data-driven tests ===
+
+    @Test(dataProvider = "usersCsv", dataProviderClass = LoginDataProviders.class)
+    public void loginFromCsv(String username, String password, String expected) {
+        User user = new User(username, password);
+        LandingPage landingPage = loginPage.signInAs(user);
+
+        if (expected.equals("ERROR_INVALID")) {
+            String errorMsg = loginPage.getErrorMsg();
+            Assert.assertTrue(errorMsg.contains("Error"));
+        } else if (expected.equals("SUCCESS")) {
+            String welcomeText = landingPage.getWelcomeText();
+            Assert.assertTrue(welcomeText.contains("loremSzymon"), "A user is not signed in!");
+        }
+    }
+
+    @Test(dataProvider = "loginJson", dataProviderClass = LoginDataProviders.class)
+    public void login_from_json(String username, String password, String expected) {
+        User user = new User(username, password);
+        LandingPage landingPage = loginPage.signInAs(user);
+
+        if (expected.equals("ERROR_INVALID")) {
+            String errorMsg = loginPage.getErrorMsg();
+            Assert.assertTrue(errorMsg.contains("Error"));
+        } else if (expected.equals("SUCCESS")) {
+            String welcomeText = landingPage.getWelcomeText();
+            Assert.assertTrue(welcomeText.contains("loremSzymon"), "A user is not signed in!");
+        }
+    }
 }
