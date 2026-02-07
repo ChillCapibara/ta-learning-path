@@ -30,6 +30,16 @@ public abstract class BasePage {
         }
     }
 
+    protected void clickOptionalElement(By locator) {
+        log.debug("Click optional element: {}", locator);
+        try {
+            actions.clickOptionalElement(locator);
+        } catch (Exception e) {
+            // optional = never fail the test
+            log.debug("Optional click skipped for {} due to {}", locator, e.getClass().getSimpleName());
+        }
+    }
+
     protected void enterValue(By locator, CharSequence value) {
         log.debug("Enter: {}, into field: {}", value, locator);
         try{
