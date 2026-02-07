@@ -22,7 +22,7 @@ public class BaseTest {
         MDC.clear();
     }
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setup(){
         this.driver = WebDriverManager.setDriver();
         beforeEachTest();

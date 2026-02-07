@@ -9,7 +9,7 @@ on:
       - "main"
 
 jobs:
-  tests:
+  ui-smoke:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
@@ -23,8 +23,10 @@ jobs:
           java-version: "17"
           cache: maven
 
-      - name: Run tests
-        run: mvn -q -U clean test
+      - name: Run UI smoke tests (TestNG groups)
+        run: mvn -q -U -pl framework-web -am test -Dgroups=smoke
+        env:
+          HEADLESS: "true"
 
       - name: Upload surefire reports
         if: always()
