@@ -1,40 +1,37 @@
 **Strategy:**
-1. Prefer custom data-* attributes dedicated for testing over production IDs, classes, and XPath
-2. Use _aria-*_ when _data-*_ is not available 
-3. Avoid class-based locators and long attribute chains unless semantic and stable
-4. Use XPath as a last resort 
-   - no indexes
-   - no absolute paths
+1. Prefer dedicated test attributes (`data-testid`, `data-test`, `data-qa`) over production IDs/classes/XPath
+2. Use stable IDs when available
+3. Use `aria-*` only when it’s truly stable (accessibility labels can vary by locale/vendor)
+4. Avoid class-based locators and long attribute chains unless semantic and stable
+5. Use XPath as a last resort:
+    - no indexes
+    - no absolute paths
 
-Locator type picking order:
+Locator picking order:
 
-    data-* (test-only) -> stable id -> aria-* -> unique semantic attribute -> css -> xpath
+    data-test* -> stable id -> aria-* -> unique semantic attribute -> css -> xpath
 
-**Exceptions:**
+**Exceptions / special cases (important):**
+
+Non-product UI overlays (cookie consent, marketing popups, A/B banners) are **not part of the feature under test**.
+- Locators for these can be less “clean”, but interactions must be **optional**.
+- Never fail a test because a cookie banner changed or didn’t appear.
+- Use `clickOptionalElement(...)` / best-effort handling.
 
 XPath is allowed when:
 - Element has no stable attributes
-- Locator is relative to stable text or class
-
+- Locator is relative to stable text or container
 
 **Examples**
 
-Bad:
->> protected static final By COOKIES_ACCEPT_BUTTON = By.cssSelector(".fc-cta-consent.fc-primary-button")
+Bad (banner-specific, brittle class chain), use only if there is no other option:
+> By.cssSelector(".fc-cta-consent.fc-primary-button")
 
-Good:
-> protected static final By COOKIES_ACCEPT_BUTTON = By.cssSelector("[aria-label='Consent']");
----
->
-Bad:
->protected static final By COOKIES_ACCEPT_BUTTON = By.xpath("/html/body/div[3]/div[2]/div[2]/div[2]/div[2]/button[1]")
+Better (if truly stable, but still treat as optional):
+> By.cssSelector("[aria-label='Consent']")
 
+Never do:
+> By.xpath("/html/body/div[3]/div[2]/div[2]/div[2]/div[2]/button[1]")
 
-Good:
-
-// for example if 'fc-cta-consent' class is added to multiple buttons, and button can be
-located only via inner element text. 
-
-- avoid exact attribute match (ex. /p[someCondition]/..)
-- prefer the filtering over reaching directly inside the path
->protected static final By COOKIES_ACCEPT_BUTTON = By.xpath("//button[contains(@class, 'fc-cta-consent')][.//text()[contains(., 'Consent')]]")
+XPath example (last resort, still optional):
+> By.xpath("//button[contains(@class,'fc-cta-consent')][contains(.,'Consent')]")
