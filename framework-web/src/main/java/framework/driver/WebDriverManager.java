@@ -37,8 +37,14 @@ public class WebDriverManager {
     }
 
     private static DriverOptions buildOptionsFromConfig() {
+        boolean headlessFromEnvOrProp =
+                Boolean.parseBoolean(System.getenv().getOrDefault("HEADLESS", "false"))
+                        || Boolean.parseBoolean(System.getProperty("headless", "false"));
+
+        boolean headlessFromConfig = Config.getBoolean("headless");
+
         DriverOptions.Builder builder = DriverOptions.builder()
-                .headless(Config.getBoolean("headless"))
+                .headless(headlessFromEnvOrProp || headlessFromConfig)
                 .disableNotifications(true);
 
         switch (getWindowMode()) {
