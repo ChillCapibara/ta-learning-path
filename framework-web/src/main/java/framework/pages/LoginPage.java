@@ -35,7 +35,7 @@ public class LoginPage extends BasePage {
     }
 
     public LoginPage acceptCookies() {
-        click(COOKIES_ACCEPT_BUTTON);
+        clickOptionalElement(COOKIES_ACCEPT_BUTTON);
         return this;
     }
 

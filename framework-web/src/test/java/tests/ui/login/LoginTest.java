@@ -22,7 +22,7 @@ public class LoginTest extends BaseTest {
                 .acceptCookies();
     }
 
-    @Test
+    @Test(groups="smoke")
     public void testValidLogin() {
         LandingPage landingPage = loginPage.signInAs(UserFactory.valid());
         String welcomeText = landingPage.getWelcomeText();

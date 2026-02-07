@@ -15,14 +15,19 @@ public enum BrowserType {
             if (options.isDisableNotifications()) {
                 chrome.addArguments("--disable-notifications");
             }
+
             if (options.isHeadless()) {
                 chrome.addArguments("--headless=new");
+                chrome.addArguments("--no-sandbox");
+                chrome.addArguments("--disable-dev-shm-usage");
+                chrome.addArguments("--disable-gpu");
+                if (!options.hasCustomSize()) {
+                    chrome.addArguments("--window-size=1920,1080");
+                }
             }
+
             if (options.hasCustomSize()) {
-                chrome.addArguments(
-                        "--window-size=" +
-                                options.getWidth() + "," + options.getHeight()
-                );
+                chrome.addArguments("--window-size=" + options.getWidth() + "," + options.getHeight());
             }
 
             return new ChromeDriver(chrome);

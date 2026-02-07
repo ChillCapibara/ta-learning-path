@@ -78,4 +78,13 @@ class WaitUtils {
         fluentWait().until(d -> Boolean.TRUE.equals(condition.get()));
     }
 
+    static boolean isPresent(By locator) {
+        try {
+            fluentWait().until(ExpectedConditions.presenceOfElementLocated(locator));
+            return true;
+        } catch (org.openqa.selenium.TimeoutException e) {
+            return false;
+        }
+    }
+
 }

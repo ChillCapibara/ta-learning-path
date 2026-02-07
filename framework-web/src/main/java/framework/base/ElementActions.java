@@ -43,6 +43,14 @@ class ElementActions {
         }
     }
 
+    void clickOptionalElement(By locator) {
+        if (WaitUtils.isPresent(locator)) {
+            click(locator);
+        } else {
+            log.debug("Optional element not present: {}", locator);
+        }
+    }
+
     // to be used explicitly, only as a last resort
     void jsClick(By locator) {
         log.warn("JS click used for {}", locator);
